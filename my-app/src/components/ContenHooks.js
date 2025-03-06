@@ -1,56 +1,50 @@
-// ContentHooks.js
-
 import React, { useState, useEffect } from "react";
+import "./Content.css"; // Assuming there's a CSS file for styling
 
 const ContentHooks = () => {
-  // Replace the constructor and state with useState hooks
   const [isLoaded, setIsLoaded] = useState(false);
   const [fetchedPosts, setFetchedPosts] = useState([]);
 
-  // Replace the componentDidMount method with useEffect
   useEffect(() => {
-    // Set the timer and update the state after 2 seconds
+    // Simulate a fetch operation and set state after 2 seconds
     const timer = setTimeout(() => {
-      setIsLoaded(true);
+      const savedPosts = [
+        /* Your fetched posts go here */
+      ];
       setFetchedPosts(savedPosts);
+      setIsLoaded(true);
     }, 2000);
 
-    // Clean up the timer when the component is unmounted
-    return () => clearTimeout(timer);
+    return () => clearTimeout(timer); // Cleanup the timer on component unmount
   }, []);
 
-  // Replace this.state.posts with fetchedPosts
   const handleChange = (event) => {
-    const filteredPosts = savedPosts.filter((post) =>
-      post.title.toLowerCase().includes(event.target.value.toLowerCase())
+    const searchQuery = event.target.value;
+    // Assuming you have a function to filter fetchedPosts based on searchQuery
+    const filteredPosts = fetchedPosts.filter(
+      (post) => post.title.includes(searchQuery) // Adjust according to your filtering logic
     );
     setFetchedPosts(filteredPosts);
   };
 
-  const savedPosts = [
-    { id: 1, title: "Post 1", content: "This is the content of Post 1." },
-    { id: 2, title: "Post 2", content: "This is the content of Post 2." },
-    { id: 3, title: "Post 3", content: "This is the content of Post 3." },
-    { id: 4, title: "Post 4", content: "This is the content of Post 4." },
-    { id: 5, title: "Post 5", content: "This is the content of Post 5." },
-  ];
+  if (!isLoaded) {
+    return <div>Loading...</div>; // Loading state indicator
+  }
 
   return (
     <div>
-      <h1>Content</h1>
-      <input type="text" placeholder="Search posts" onChange={handleChange} />
-      {isLoaded ? (
-        <div>
-          {fetchedPosts.map((post) => (
-            <div key={post.id}>
-              <h2>{post.title}</h2>
-              <p>{post.content}</p>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <p>Loading...</p>
-      )}
+      <input
+        type="text"
+        onChange={handleChange}
+        placeholder="Search posts..."
+      />
+      <ul>
+        {fetchedPosts.map(
+          (post) => (
+            <li key={post.id}>{post.title}</li>
+          ) // Render your posts here
+        )}
+      </ul>
     </div>
   );
 };

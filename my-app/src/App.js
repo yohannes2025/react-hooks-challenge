@@ -1,13 +1,12 @@
-import css from './App.module.css';
-import Sidebar from "./components/Sidebar";
+import React from "react";
+import ContentHooks from "./ContentHooks";
 
-function App() {
+const App = () => {
   return (
-    <div className={css.App}>
-      {/* Add your components here */}
-      <Sidebar />
+    <div className="App">
+      <ContentHooks />
     </div>
   );
-}
+};
 
 export default App;
